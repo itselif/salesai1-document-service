@@ -42,9 +42,9 @@ The service uses a **PostgreSQL** database for data storage, with the database n
 
 This service is accessible via the following environment-specific URLs:
 
-* **Preview:** `https://productsales-api-salesai1.prw.mindbricks.com`
-* **Staging:** `https://productsales-api-salesai1.staging.mindbricks.com`
-* **Production:** `https://productsales-api-salesai1.prod.mindbricks.com`
+* **Preview:** `https://productsales-api.salesai1.prw.mindbricks.com`
+* **Staging:** `https://productsales-api.salesai1.staging.mindbricks.com`
+* **Production:** `https://productsales-api.salesai1.prod.mindbricks.com`
 
                                  
 

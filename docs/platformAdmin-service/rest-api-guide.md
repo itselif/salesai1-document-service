@@ -71,9 +71,9 @@ The following routes are available by default:
 
 This service is accessible via the following environment-specific URLs:
 
-* **Preview:** `https://platformAdmin-api-salesai1.prw.mindbricks.com`
-* **Staging:** `https://platformAdmin-api-salesai1.staging.mindbricks.com`
-* **Production:** `https://platformAdmin-api-salesai1.prod.mindbricks.com`
+* **Preview:** `https://platformAdmin-api.salesai1.prw.mindbricks.com`
+* **Staging:** `https://platformAdmin-api.salesai1.staging.mindbricks.com`
+* **Production:** `https://platformAdmin-api.salesai1.prod.mindbricks.com`
 
 
 **Parameter Inclusion Methods:**

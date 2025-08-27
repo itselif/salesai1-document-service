@@ -71,9 +71,9 @@ The following routes are available by default:
 
 This service is accessible via the following environment-specific URLs:
 
-* **Preview:** `https://observability-api-salesai1.prw.mindbricks.com`
-* **Staging:** `https://observability-api-salesai1.staging.mindbricks.com`
-* **Production:** `https://observability-api-salesai1.prod.mindbricks.com`
+* **Preview:** `https://observability-api.salesai1.prw.mindbricks.com`
+* **Staging:** `https://observability-api.salesai1.staging.mindbricks.com`
+* **Production:** `https://observability-api.salesai1.prod.mindbricks.com`
 
 
 **Parameter Inclusion Methods:**

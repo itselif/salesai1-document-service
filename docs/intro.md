@@ -1,6 +1,6 @@
 
 # SalesAI Multi-Store Orchestration Backend
-Version : 1.0.97
+Version : 1.1.10
 
 SalesAI is a robust, multi-tenant backend platform designed for sales personnel and managers, providing secure registration, authentication, and granular store-level access. It orchestrates analytics, reporting, and chat services via sales, stock, and report agents—enforcing strict store isolation, role-based permissions, and secure report delivery for dashboards and chatbots.
 
@@ -22,9 +22,9 @@ Before consuming any API, developers or agents must understand the service URL s
 
 | Environment | URL Pattern Example |
 |-------------|---------------------|
-| **Preview** | `https://auth-api-salesai.prw.mindbricks.com` |
-| **Staging** | `https://auth-api-salesai.staging.mindbricks.com` |
-| **Production** | `https://auth-api-salesai.prod.mindbricks.com` |
+| **Preview** | `https://auth-api.salesai1.prw.mindbricks.com` |
+| **Staging** | `https://auth-api.salesai1.staging.mindbricks.com` |
+| **Production** | `https://auth-api.salesai1.prod.mindbricks.com` |
 
 Replace `auth` with the actual service name (e.g., `order-api`, `bff-service`, etc.).
 
@@ -55,13 +55,13 @@ Agents should first utilize the Auth Service to:
 Use the following resources to understand and integrate the Auth Service:
 
 * **REST API Guide** – ideal for frontend and direct HTTP usage  
-  <https://document-salesai.prw.mindbricks.com/auth-service/rest-api-guide>
+  <https://document.salesai1.prw.mindbricks.com/auth-service/rest-api-guide>
 
 * **Event Guide** – helpful for event-driven or cross-service integrations  
-  <https://document-salesai.prw.mindbricks.com/auth-service/event-guide>
+  <https://document.salesai1.prw.mindbricks.com/auth-service/event-guide>
 
 * **Service Design Document** – overall structure, patterns, and logic  
-  <https://document-salesai.prw.mindbricks.com/auth-service/service-design>
+  <https://document.salesai1.prw.mindbricks.com/auth-service/service-design>
 
 > **Note:** For most frontend use cases, the **REST API Guide** will be the primary source. The **Event Guide** and **Service Design** documents are especially useful when integrating with other backend microservices or building systems that interact with the auth service indirectly.
 
@@ -85,13 +85,13 @@ The **BFF service** complements these business services by providing a **read-on
 ### BFF Service Documentation
 
 * **REST API Guide** – querying aggregated and indexed data  
-  <https://document-salesai.prw.mindbricks.com/bff-service/rest-api-guide>
+  <https://document.salesai1.prw.mindbricks.com/bff-service/rest-api-guide>
 
 * **Event Guide** – syncing strategies across replicas  
-  <https://document-salesai.prw.mindbricks.com/bff-service/event-guide>
+  <https://document.salesai1.prw.mindbricks.com/bff-service/event-guide>
 
 * **Service Design** – aggregation patterns and index structures  
-  <https://document-salesai.prw.mindbricks.com/bff-service/service-design>
+  <https://document.salesai1.prw.mindbricks.com/bff-service/service-design>
 
 > **Tip:** Use the BFF service as the **main entry point for all frontend data queries**. It simplifies access, reduces round-trips, and ensures that data is shaped appropriately for the UI layer.
 
@@ -118,17 +118,17 @@ For advanced query needs across multiple services or aggregated views, prefer us
 
 **Documentation:**
 
-* [REST API Guide](https://document-salesai.prw.mindbricks.com/salesManagement-service/rest-api-guide)
-* [Event Guide](https://document-salesai.prw.mindbricks.com/salesManagement-service/event-guide)
-* [Service Design](https://document-salesai.prw.mindbricks.com/salesManagement-service/service-design)
+* [REST API Guide](https://document.salesai1.prw.mindbricks.com/salesManagement-service/rest-api-guide)
+* [Event Guide](https://document.salesai1.prw.mindbricks.com/salesManagement-service/event-guide)
+* [Service Design](https://document.salesai1.prw.mindbricks.com/salesManagement-service/service-design)
 
 **Base URL Examples:**
 
 | Environment | URL |
 |-------------|-----|
-| Preview     | `https://salesManagement-api-salesai.prw.mindbricks.com` |
-| Staging     | `https://salesManagement-api-salesai.staging.mindbricks.com` |
-| Production  | `https://salesManagement-api-salesai.prod.mindbricks.com` |
+| Preview     | `https://salesManagement-api.salesai1.prw.mindbricks.com` |
+| Staging     | `https://salesManagement-api.salesai1.staging.mindbricks.com` |
+| Production  | `https://salesManagement-api.salesai1.prod.mindbricks.com` |
 
 
 ### inventoryManagement Service
@@ -137,17 +137,17 @@ For advanced query needs across multiple services or aggregated views, prefer us
 
 **Documentation:**
 
-* [REST API Guide](https://document-salesai.prw.mindbricks.com/inventoryManagement-service/rest-api-guide)
-* [Event Guide](https://document-salesai.prw.mindbricks.com/inventoryManagement-service/event-guide)
-* [Service Design](https://document-salesai.prw.mindbricks.com/inventoryManagement-service/service-design)
+* [REST API Guide](https://document.salesai1.prw.mindbricks.com/inventoryManagement-service/rest-api-guide)
+* [Event Guide](https://document.salesai1.prw.mindbricks.com/inventoryManagement-service/event-guide)
+* [Service Design](https://document.salesai1.prw.mindbricks.com/inventoryManagement-service/service-design)
 
 **Base URL Examples:**
 
 | Environment | URL |
 |-------------|-----|
-| Preview     | `https://inventoryManagement-api-salesai.prw.mindbricks.com` |
-| Staging     | `https://inventoryManagement-api-salesai.staging.mindbricks.com` |
-| Production  | `https://inventoryManagement-api-salesai.prod.mindbricks.com` |
+| Preview     | `https://inventoryManagement-api.salesai1.prw.mindbricks.com` |
+| Staging     | `https://inventoryManagement-api.salesai1.staging.mindbricks.com` |
+| Production  | `https://inventoryManagement-api.salesai1.prod.mindbricks.com` |
 
 
 ### storeManagement Service
@@ -156,17 +156,17 @@ For advanced query needs across multiple services or aggregated views, prefer us
 
 **Documentation:**
 
-* [REST API Guide](https://document-salesai.prw.mindbricks.com/storeManagement-service/rest-api-guide)
-* [Event Guide](https://document-salesai.prw.mindbricks.com/storeManagement-service/event-guide)
-* [Service Design](https://document-salesai.prw.mindbricks.com/storeManagement-service/service-design)
+* [REST API Guide](https://document.salesai1.prw.mindbricks.com/storeManagement-service/rest-api-guide)
+* [Event Guide](https://document.salesai1.prw.mindbricks.com/storeManagement-service/event-guide)
+* [Service Design](https://document.salesai1.prw.mindbricks.com/storeManagement-service/service-design)
 
 **Base URL Examples:**
 
 | Environment | URL |
 |-------------|-----|
-| Preview     | `https://storeManagement-api-salesai.prw.mindbricks.com` |
-| Staging     | `https://storeManagement-api-salesai.staging.mindbricks.com` |
-| Production  | `https://storeManagement-api-salesai.prod.mindbricks.com` |
+| Preview     | `https://storeManagement-api.salesai1.prw.mindbricks.com` |
+| Staging     | `https://storeManagement-api.salesai1.staging.mindbricks.com` |
+| Production  | `https://storeManagement-api.salesai1.prod.mindbricks.com` |
 
 
 ### reporting Service
@@ -175,17 +175,17 @@ For advanced query needs across multiple services or aggregated views, prefer us
 
 **Documentation:**
 
-* [REST API Guide](https://document-salesai.prw.mindbricks.com/reporting-service/rest-api-guide)
-* [Event Guide](https://document-salesai.prw.mindbricks.com/reporting-service/event-guide)
-* [Service Design](https://document-salesai.prw.mindbricks.com/reporting-service/service-design)
+* [REST API Guide](https://document.salesai1.prw.mindbricks.com/reporting-service/rest-api-guide)
+* [Event Guide](https://document.salesai1.prw.mindbricks.com/reporting-service/event-guide)
+* [Service Design](https://document.salesai1.prw.mindbricks.com/reporting-service/service-design)
 
 **Base URL Examples:**
 
 | Environment | URL |
 |-------------|-----|
-| Preview     | `https://reporting-api-salesai.prw.mindbricks.com` |
-| Staging     | `https://reporting-api-salesai.staging.mindbricks.com` |
-| Production  | `https://reporting-api-salesai.prod.mindbricks.com` |
+| Preview     | `https://reporting-api.salesai1.prw.mindbricks.com` |
+| Staging     | `https://reporting-api.salesai1.staging.mindbricks.com` |
+| Production  | `https://reporting-api.salesai1.prod.mindbricks.com` |
 
 
 ### observability Service
@@ -194,17 +194,17 @@ For advanced query needs across multiple services or aggregated views, prefer us
 
 **Documentation:**
 
-* [REST API Guide](https://document-salesai.prw.mindbricks.com/observability-service/rest-api-guide)
-* [Event Guide](https://document-salesai.prw.mindbricks.com/observability-service/event-guide)
-* [Service Design](https://document-salesai.prw.mindbricks.com/observability-service/service-design)
+* [REST API Guide](https://document.salesai1.prw.mindbricks.com/observability-service/rest-api-guide)
+* [Event Guide](https://document.salesai1.prw.mindbricks.com/observability-service/event-guide)
+* [Service Design](https://document.salesai1.prw.mindbricks.com/observability-service/service-design)
 
 **Base URL Examples:**
 
 | Environment | URL |
 |-------------|-----|
-| Preview     | `https://observability-api-salesai.prw.mindbricks.com` |
-| Staging     | `https://observability-api-salesai.staging.mindbricks.com` |
-| Production  | `https://observability-api-salesai.prod.mindbricks.com` |
+| Preview     | `https://observability-api.salesai1.prw.mindbricks.com` |
+| Staging     | `https://observability-api.salesai1.staging.mindbricks.com` |
+| Production  | `https://observability-api.salesai1.prod.mindbricks.com` |
 
 
 ### platformAdmin Service
@@ -213,17 +213,17 @@ For advanced query needs across multiple services or aggregated views, prefer us
 
 **Documentation:**
 
-* [REST API Guide](https://document-salesai.prw.mindbricks.com/platformAdmin-service/rest-api-guide)
-* [Event Guide](https://document-salesai.prw.mindbricks.com/platformAdmin-service/event-guide)
-* [Service Design](https://document-salesai.prw.mindbricks.com/platformAdmin-service/service-design)
+* [REST API Guide](https://document.salesai1.prw.mindbricks.com/platformAdmin-service/rest-api-guide)
+* [Event Guide](https://document.salesai1.prw.mindbricks.com/platformAdmin-service/event-guide)
+* [Service Design](https://document.salesai1.prw.mindbricks.com/platformAdmin-service/service-design)
 
 **Base URL Examples:**
 
 | Environment | URL |
 |-------------|-----|
-| Preview     | `https://platformAdmin-api-salesai.prw.mindbricks.com` |
-| Staging     | `https://platformAdmin-api-salesai.staging.mindbricks.com` |
-| Production  | `https://platformAdmin-api-salesai.prod.mindbricks.com` |
+| Preview     | `https://platformAdmin-api.salesai1.prw.mindbricks.com` |
+| Staging     | `https://platformAdmin-api.salesai1.staging.mindbricks.com` |
+| Production  | `https://platformAdmin-api.salesai1.prod.mindbricks.com` |
 
 
 ### productsales Service
@@ -232,17 +232,17 @@ For advanced query needs across multiple services or aggregated views, prefer us
 
 **Documentation:**
 
-* [REST API Guide](https://document-salesai.prw.mindbricks.com/productsales-service/rest-api-guide)
-* [Event Guide](https://document-salesai.prw.mindbricks.com/productsales-service/event-guide)
-* [Service Design](https://document-salesai.prw.mindbricks.com/productsales-service/service-design)
+* [REST API Guide](https://document.salesai1.prw.mindbricks.com/productsales-service/rest-api-guide)
+* [Event Guide](https://document.salesai1.prw.mindbricks.com/productsales-service/event-guide)
+* [Service Design](https://document.salesai1.prw.mindbricks.com/productsales-service/service-design)
 
 **Base URL Examples:**
 
 | Environment | URL |
 |-------------|-----|
-| Preview     | `https://productsales-api-salesai.prw.mindbricks.com` |
-| Staging     | `https://productsales-api-salesai.staging.mindbricks.com` |
-| Production  | `https://productsales-api-salesai.prod.mindbricks.com` |
+| Preview     | `https://productsales-api.salesai1.prw.mindbricks.com` |
+| Staging     | `https://productsales-api.salesai1.staging.mindbricks.com` |
+| Production  | `https://productsales-api.salesai1.prod.mindbricks.com` |
 
 
 ## Conclusion

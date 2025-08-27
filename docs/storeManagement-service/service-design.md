@@ -2,7 +2,7 @@
 
 # Service Design Specification
 **salesai-storemanagement-service** documentation
--Version:**`1.0.16`**
+-Version:**`1.0.27`**
 
 ## Scope
 
@@ -42,9 +42,9 @@ The service uses a **PostgreSQL** database for data storage, with the database n
 
 This service is accessible via the following environment-specific URLs:
 
-* **Preview:** `https://storeManagement-api-salesai1.prw.mindbricks.com`
-* **Staging:** `https://storeManagement-api-salesai1.staging.mindbricks.com`
-* **Production:** `https://storeManagement-api-salesai1.prod.mindbricks.com`
+* **Preview:** `https://storeManagement-api.salesai1.prw.mindbricks.com`
+* **Staging:** `https://storeManagement-api.salesai1.staging.mindbricks.com`
+* **Production:** `https://storeManagement-api.salesai1.prod.mindbricks.com`
 
                                  
 
@@ -67,6 +67,7 @@ Data deletion is managed using a **soft delete** strategy. Instead of removing r
 |-------------|-------------|---------------| --------------| 
 | `storeAssignment` | Represents the assignment of a user (seller, manager) to one or more stores. Supports override/temporary assignments, status, and assignment type fields for audit and dynamic access enforcement. | No |  No | 
 | `store` | Represents a retail store location and its properties. Includes lifecycle metadata such as activation status and store-level policy configuration fields. | Yes |  Yes | 
+| `userpreference` | Stores the shops the user is registered to. | Yes |  Yes | 
 | `storeManagementShareToken` | A data object that stores the share tokens for tokenized access to shared objects. | No |  Yes | 
 
 
@@ -350,6 +351,142 @@ Note that a unique property is automatically indexed in the database so you will
 Secondary key properties are used to create an additional indexed identifiers for the data object, allowing for alternative access patterns.
 Different than normal indexed properties, secondary keys will act as primary keys and Mindbricks will provide automatic secondary key db utility functions to access the data object by the secondary key.
 
+
+
+
+
+
+### Filter Properties
+
+`storeId`
+
+Filter properties are used to define parameters that can be used in query filters, allowing for dynamic data retrieval based on user input or predefined criteria.
+These properties are automatically mapped as route parameters in the listing CRUD routes that have "Auto Params" enabled.
+
+- **storeId**: ID  has a filter named `storeId`
+
+
+
+
+
+## userpreference Data Object
+
+### Object Overview
+**Description:** Stores the shops the user is registered to.
+
+This object represents a core data structure within the service and acts as the blueprint for database interaction, API generation, and business logic enforcement. 
+It is defined using the `ObjectSettings` pattern, which governs its behavior, access control, caching strategy, and integration points with other systems such as Stripe and Redis.
+
+### Core Configuration
+- **Soft Delete:** Enabled — Determines whether records are marked inactive (`isActive = false`) instead of being physically deleted.
+- **Public Access:** Yes — If enabled, anonymous users may access this object’s data depending on route-level rules.
+- **Tenant-Level Scope:** Yes — Enables data isolation per tenant by attaching a tenant ID field.
+
+
+
+
+
+
+
+
+### Properties Schema
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `userId` | ID | Yes | - |
+| `selectedStoreIds` | ID | No | users choices after registiration |
+| `storeId` | ID | Yes | An ID value to represent the tenant id of the store |
+* Required properties are mandatory for creating objects and must be provided in the request body if no default value is set.
+
+
+### Array Properties 
+
+`selectedStoreIds`
+
+Array properties can hold multiple values and are indicated by the `[]` suffix in their type. Avoid using arrays in properties that are used for relations, as they will not work correctly.
+Note that using connection objects instead of arrays is recommended for relations, as they provide better performance and flexibility.
+
+
+### Default Values
+Default values are automatically assigned to properties when a new object is created, if no value is provided in the request body.
+Since default values are applied on db level, they should be literal values, not expressions.If you want to use expressions, you can use transposed parameters in any crud route to set default values dynamically.
+
+- **storeId**: 00000000-0000-0000-0000-000000000000
+
+
+### Constant Properties
+
+`userId` `storeId`
+
+Constant properties are defined to be immutable after creation, meaning they cannot be updated or changed once set. They are typically used for properties that should remain constant throughout the object's lifecycle.
+A property is set to be constant if the `Allow Update` option is set to `false`.
+
+
+### Auto Update Properties
+
+`selectedStoreIds`
+
+An update crud route created with the option `Auto Params` enabled will automatically update these properties with the provided values in the request body. 
+If you want to update any property in your own business logic not by user input, you can set the `Allow Auto Update` option to false.
+These properties will be added to the update route's body parameters and can be updated by the user if any value is provided in the request body.
+
+ 
+
+ 
+
+ 
+
+### Elastic Search Indexing
+
+`selectedStoreIds` `storeId`
+
+Properties that are indexed in Elastic Search will be searchable via the Elastic Search API. 
+While all properties are stored in the elastic search index of the data object, only those marked for Elastic Search indexing will be available for search queries.
+
+
+### Database Indexing
+
+`userId` `selectedStoreIds` `storeId`
+
+Properties that are indexed in the database will be optimized for query performance, allowing for faster data retrieval.
+Make a property indexed in the database if you want to use it frequently in query filters or sorting.
+
+
+
+
+
+### Secondary Key Properties
+
+`storeId`
+
+Secondary key properties are used to create an additional indexed identifiers for the data object, allowing for alternative access patterns.
+Different than normal indexed properties, secondary keys will act as primary keys and Mindbricks will provide automatic secondary key db utility functions to access the data object by the secondary key.
+
+
+### Relation Properties
+
+`userId` `selectedStoreIds`
+
+Mindbricks supports relations between data objects, allowing you to define how objects are linked together.
+You can define relations in the data object properties, which will be used to create foreign key constraints in the database.
+For complex joins operations, Mindbricks supportsa BFF pattern, where you can view dynamic and static views based on Elastic Search Indexes.
+Use db level relations for simple one-to-one or one-to-many relationships, and use BFF views for complex joins that require multiple data objects to be joined together.
+
+- **userId**: ID
+Relation to `storeManagement`.userId
+
+The target object is a sibling object, meaning that the relation is a many-to-one or one-to-one relationship from this object to the target.
+
+On Delete: Set Null
+Required: No
+
+- **selectedStoreIds**: ID
+Relation to `storeManagement`.storeId
+
+The target object is a sibling object, meaning that the relation is a many-to-one or one-to-one relationship from this object to the target.
+
+On Delete: Set Null
+Required: No
 
 
 
@@ -1174,6 +1311,338 @@ To access the api you can use the **REST** controller with the path **GET  /stor
   axios({
     method: 'GET',
     url: '/stores',
+    data: {
+    
+    },
+    params: {
+    
+    }
+  });
+```     
+
+
+
+
+**Controller Types:**
+
+- **REST**: $default
+
+
+
+
+
+
+
+
+
+
+---
+
+
+
+
+## CRUD Routes for userpreference
+
+### getPref
+
+**Description:** No description provided
+
+**Configuration:**
+- **Login Required:** Yes
+The route is **Not available** for public access
+
+- **Auto Parameters:** Yes
+The auto parameters are created from the data object properties according to the route crud type.
+Deactivate this option if you only want custom parameters to be handled by the controllers.
+
+
+- **Raise Route Event:** No
+  
+
+- **Raise DB Events:** Yes
+  
+
+- **Read from Cache:** No
+ 
+
+- **SaaS Level:** No
+
+- **Active Check:** 
+- **Ownership Check:** 
+- **On Not Found:** Return Null
+
+
+
+
+
+To access the api you can use the **REST** controller with the path **GET  /pref/:userpreferenceId**
+```js
+  axios({
+    method: 'GET',
+    url: `/pref/${userpreferenceId}`,
+    data: {
+    
+    },
+    params: {
+    
+    }
+  });
+```     
+
+
+
+
+**Controller Types:**
+
+- **REST**: $default
+
+
+
+
+
+
+
+
+
+
+---
+
+### createPref
+
+**Description:** No description provided
+
+**Configuration:**
+- **Login Required:** Yes
+The route is **Not available** for public access
+
+- **Auto Parameters:** Yes
+The auto parameters are created from the data object properties according to the route crud type.
+Deactivate this option if you only want custom parameters to be handled by the controllers.
+
+
+- **Raise Route Event:** No
+  
+
+- **Raise DB Events:** Yes
+  
+
+- **Read from Cache:** No
+ 
+
+- **SaaS Level:** No
+
+- **Active Check:** 
+- **Ownership Check:** 
+- **On Not Found:** Return Null
+
+
+
+
+
+To access the api you can use the **REST** controller with the path **POST  /pref**
+```js
+  axios({
+    method: 'POST',
+    url: '/pref',
+    data: {
+            userId:"ID",  
+            selectedStoreIds:"ID",  
+    
+    },
+    params: {
+    
+    }
+  });
+```     
+
+
+
+
+**Controller Types:**
+
+- **REST**: $default
+
+
+
+
+
+
+
+
+
+
+---
+
+### updatePref
+
+**Description:** No description provided
+
+**Configuration:**
+- **Login Required:** Yes
+The route is **Not available** for public access
+
+- **Auto Parameters:** Yes
+The auto parameters are created from the data object properties according to the route crud type.
+Deactivate this option if you only want custom parameters to be handled by the controllers.
+
+Note that the userpreferenceId parameter will be added to the update and delete crud routes automatically in any case.
+
+
+- **Raise Route Event:** No
+  
+
+- **Raise DB Events:** Yes
+  
+
+- **Read from Cache:** No
+ 
+
+- **SaaS Level:** No
+
+- **Active Check:** 
+- **Ownership Check:** 
+- **On Not Found:** Return Null
+
+
+
+
+
+To access the api you can use the **REST** controller with the path **PATCH  /pref/:userpreferenceId**
+```js
+  axios({
+    method: 'PATCH',
+    url: `/pref/${userpreferenceId}`,
+    data: {
+            selectedStoreIds:"ID",  
+    
+    },
+    params: {
+    
+    }
+  });
+```     
+
+
+
+
+**Controller Types:**
+
+- **REST**: $default
+
+
+
+
+
+
+
+
+
+
+---
+
+### deletePref
+
+**Description:** No description provided
+
+**Configuration:**
+- **Login Required:** Yes
+The route is **Not available** for public access
+
+- **Auto Parameters:** Yes
+The auto parameters are created from the data object properties according to the route crud type.
+Deactivate this option if you only want custom parameters to be handled by the controllers.
+
+Note that the userpreferenceId parameter will be added to the update and delete crud routes automatically in any case.
+
+
+- **Raise Route Event:** No
+  
+
+- **Raise DB Events:** Yes
+  
+
+- **Read from Cache:** No
+ 
+
+- **SaaS Level:** No
+
+- **Active Check:** 
+- **Ownership Check:** 
+- **On Not Found:** Return Null
+
+
+
+
+
+To access the api you can use the **REST** controller with the path **DELETE  /pref/:userpreferenceId**
+```js
+  axios({
+    method: 'DELETE',
+    url: `/pref/${userpreferenceId}`,
+    data: {
+    
+    },
+    params: {
+    
+    }
+  });
+```     
+
+
+
+
+**Controller Types:**
+
+- **REST**: $default
+
+
+
+
+
+
+
+
+
+
+---
+
+### listPref
+
+**Description:** No description provided
+
+**Configuration:**
+- **Login Required:** Yes
+The route is **Not available** for public access
+
+- **Auto Parameters:** Yes
+The auto parameters are created from the data object properties according to the route crud type.
+Deactivate this option if you only want custom parameters to be handled by the controllers.
+
+
+- **Raise Route Event:** No
+  
+
+- **Raise DB Events:** Yes
+  
+
+- **Read from Cache:** No
+ 
+
+- **SaaS Level:** No
+
+- **Active Check:** 
+- **Ownership Check:** 
+- **On Not Found:** Return Null
+
+
+
+
+
+To access the api you can use the **REST** controller with the path **GET  /pref**
+```js
+  axios({
+    method: 'GET',
+    url: '/pref',
     data: {
     
     },

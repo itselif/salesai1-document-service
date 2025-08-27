@@ -71,9 +71,9 @@ The following routes are available by default:
 
 This service is accessible via the following environment-specific URLs:
 
-* **Preview:** `https://storeManagement-api-salesai1.prw.mindbricks.com`
-* **Staging:** `https://storeManagement-api-salesai1.staging.mindbricks.com`
-* **Production:** `https://storeManagement-api-salesai1.prod.mindbricks.com`
+* **Preview:** `https://storeManagement-api.salesai1.prw.mindbricks.com`
+* **Staging:** `https://storeManagement-api.salesai1.staging.mindbricks.com`
+* **Production:** `https://storeManagement-api.salesai1.prod.mindbricks.com`
 
 
 **Parameter Inclusion Methods:**
@@ -310,6 +310,15 @@ Enum properties are represented as Small Integer values (0-255) in the database.
 | **city** | String |  |  | ** |
 | **avatar** | String |  |  | ** |
 | **active** | Boolean |  |  | ** |
+| **storeId** | ID |  |  | *An ID value to represent the tenant id of the store* |
+### Userpreference resource
+
+*Resource Definition* : Stores the shops the user is registered to.
+*Userpreference Resource Properties* 
+| Name | Type | Required | Default | Definition | 
+| ---- | ---- | -------- | ------- | ---------- |
+| **userId** | ID |  |  | ** |
+| **selectedStoreIds** | ID |  |  | *users choices after registiration* |
 | **storeId** | ID |  |  | *An ID value to represent the tenant id of the store* |
 ### StoreManagementShareToken resource
 
@@ -814,6 +823,236 @@ Following JSON represents the most comprehensive form of the **`stores`** object
 
 ```json
 {"status":"OK","statusCode":"200","elapsedMs":126,"ssoTime":120,"source":"db","cacheKey":"hexCode","userId":"ID","sessionId":"ID","requestId":"ID","dataName":"stores","action":"getList","appVersion":"Version","rowCount":"\"Number\"","stores":[{"id":"ID","isActive":true},{},{}],"paging":{"pageNumber":"Number","pageRowCount":"NUmber","totalRowCount":"Number","pageCount":"Number"},"filters":[],"uiPermissions":[]}
+```  
+
+
+  
+
+### Route: getPref
+
+
+*Route Type* : get
+
+*Default access route* : *GET* `/pref/:userpreferenceId`
+
+####  Parameters
+The getPref api has got 1 parameter  
+
+| Parameter              | Type                   | Required | Population                   |
+| ---------------------- | ---------------------- | -------- | ---------------------------- |
+| userpreferenceId  | ID  | true | request.params?.userpreferenceId |
+
+  
+
+  
+
+
+
+To access the api you can use the **REST** controller with the path **GET  /pref/:userpreferenceId**
+```js
+  axios({
+    method: 'GET',
+    url: `/pref/${userpreferenceId}`,
+    data: {
+    
+    },
+    params: {
+    
+    }
+  });
+```     
+The API response is encapsulated within a JSON envelope. Successful operations return an HTTP status code of 200 for get, getlist, update, or delete requests, and 201 for create requests. Each successful response includes a `"status": "OK"` property. For error handling, refer to the "Error Response" section.
+
+Following JSON represents the most comprehensive form of the **`userpreference`** object in the respones. However, some properties may be omitted based on the object's internal logic.
+
+
+
+```json
+{"status":"OK","statusCode":"200","elapsedMs":126,"ssoTime":120,"source":"db","cacheKey":"hexCode","userId":"ID","sessionId":"ID","requestId":"ID","dataName":"userpreference","action":"get","appVersion":"Version","rowCount":1,"userpreference":{"id":"ID","isActive":true}}
+```  
+
+
+  
+
+### Route: createPref
+
+
+*Route Type* : create
+
+*Default access route* : *POST* `/pref`
+
+####  Parameters
+The createPref api has got 2 parameters  
+
+| Parameter              | Type                   | Required | Population                   |
+| ---------------------- | ---------------------- | -------- | ---------------------------- |
+| userId  | ID  | true | request.body?.userId |
+| selectedStoreIds  | ID  | false | request.body?.selectedStoreIds |
+
+  
+
+  
+
+
+
+To access the api you can use the **REST** controller with the path **POST  /pref**
+```js
+  axios({
+    method: 'POST',
+    url: '/pref',
+    data: {
+            userId:"ID",  
+            selectedStoreIds:"ID",  
+    
+    },
+    params: {
+    
+    }
+  });
+```     
+The API response is encapsulated within a JSON envelope. Successful operations return an HTTP status code of 200 for get, getlist, update, or delete requests, and 201 for create requests. Each successful response includes a `"status": "OK"` property. For error handling, refer to the "Error Response" section.
+
+Following JSON represents the most comprehensive form of the **`userpreference`** object in the respones. However, some properties may be omitted based on the object's internal logic.
+
+
+
+```json
+{"status":"OK","statusCode":"200","elapsedMs":126,"ssoTime":120,"source":"db","cacheKey":"hexCode","userId":"ID","sessionId":"ID","requestId":"ID","dataName":"userpreference","action":"create","appVersion":"Version","rowCount":1,"userpreference":{"id":"ID","isActive":true}}
+```  
+
+
+  
+
+### Route: updatePref
+
+
+*Route Type* : update
+
+*Default access route* : *PATCH* `/pref/:userpreferenceId`
+
+####  Parameters
+The updatePref api has got 2 parameters  
+
+| Parameter              | Type                   | Required | Population                   |
+| ---------------------- | ---------------------- | -------- | ---------------------------- |
+| userpreferenceId  | ID  | true | request.params?.userpreferenceId |
+| selectedStoreIds  | ID  | false | request.body?.selectedStoreIds |
+
+  
+
+  
+
+
+
+To access the api you can use the **REST** controller with the path **PATCH  /pref/:userpreferenceId**
+```js
+  axios({
+    method: 'PATCH',
+    url: `/pref/${userpreferenceId}`,
+    data: {
+            selectedStoreIds:"ID",  
+    
+    },
+    params: {
+    
+    }
+  });
+```     
+The API response is encapsulated within a JSON envelope. Successful operations return an HTTP status code of 200 for get, getlist, update, or delete requests, and 201 for create requests. Each successful response includes a `"status": "OK"` property. For error handling, refer to the "Error Response" section.
+
+Following JSON represents the most comprehensive form of the **`userpreference`** object in the respones. However, some properties may be omitted based on the object's internal logic.
+
+
+
+```json
+{"status":"OK","statusCode":"200","elapsedMs":126,"ssoTime":120,"source":"db","cacheKey":"hexCode","userId":"ID","sessionId":"ID","requestId":"ID","dataName":"userpreference","action":"update","appVersion":"Version","rowCount":1,"userpreference":{"id":"ID","isActive":true}}
+```  
+
+
+  
+
+### Route: deletePref
+
+
+*Route Type* : delete
+
+*Default access route* : *DELETE* `/pref/:userpreferenceId`
+
+####  Parameters
+The deletePref api has got 1 parameter  
+
+| Parameter              | Type                   | Required | Population                   |
+| ---------------------- | ---------------------- | -------- | ---------------------------- |
+| userpreferenceId  | ID  | true | request.params?.userpreferenceId |
+
+  
+
+  
+
+
+
+To access the api you can use the **REST** controller with the path **DELETE  /pref/:userpreferenceId**
+```js
+  axios({
+    method: 'DELETE',
+    url: `/pref/${userpreferenceId}`,
+    data: {
+    
+    },
+    params: {
+    
+    }
+  });
+```     
+The API response is encapsulated within a JSON envelope. Successful operations return an HTTP status code of 200 for get, getlist, update, or delete requests, and 201 for create requests. Each successful response includes a `"status": "OK"` property. For error handling, refer to the "Error Response" section.
+
+Following JSON represents the most comprehensive form of the **`userpreference`** object in the respones. However, some properties may be omitted based on the object's internal logic.
+
+
+
+```json
+{"status":"OK","statusCode":"200","elapsedMs":126,"ssoTime":120,"source":"db","cacheKey":"hexCode","userId":"ID","sessionId":"ID","requestId":"ID","dataName":"userpreference","action":"delete","appVersion":"Version","rowCount":1,"userpreference":{"id":"ID","isActive":false}}
+```  
+
+
+  
+
+### Route: listPref
+
+
+*Route Type* : getList
+
+*Default access route* : *GET* `/pref`
+
+The listPref api has got no parameters.    
+
+  
+
+  
+
+
+
+To access the api you can use the **REST** controller with the path **GET  /pref**
+```js
+  axios({
+    method: 'GET',
+    url: '/pref',
+    data: {
+    
+    },
+    params: {
+    
+    }
+  });
+```     
+The API response is encapsulated within a JSON envelope. Successful operations return an HTTP status code of 200 for get, getlist, update, or delete requests, and 201 for create requests. Each successful response includes a `"status": "OK"` property. For error handling, refer to the "Error Response" section.
+
+Following JSON represents the most comprehensive form of the **`userpreferences`** object in the respones. However, some properties may be omitted based on the object's internal logic.
+
+
+
+```json
+{"status":"OK","statusCode":"200","elapsedMs":126,"ssoTime":120,"source":"db","cacheKey":"hexCode","userId":"ID","sessionId":"ID","requestId":"ID","dataName":"userpreferences","action":"getList","appVersion":"Version","rowCount":"\"Number\"","userpreferences":[{"id":"ID","isActive":true},{},{}],"paging":{"pageNumber":"Number","pageRowCount":"NUmber","totalRowCount":"Number","pageCount":"Number"},"filters":[],"uiPermissions":[]}
 ```  
 
 

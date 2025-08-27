@@ -71,9 +71,9 @@ The following routes are available by default:
 
 This service is accessible via the following environment-specific URLs:
 
-* **Preview:** `https://auth-api-salesai1.prw.mindbricks.com`
-* **Staging:** `https://auth-api-salesai1.staging.mindbricks.com`
-* **Production:** `https://auth-api-salesai1.prod.mindbricks.com`
+* **Preview:** `https://auth-api.salesai1.prw.mindbricks.com`
+* **Staging:** `https://auth-api.salesai1.staging.mindbricks.com`
+* **Production:** `https://auth-api.salesai1.prod.mindbricks.com`
 
 
 **Parameter Inclusion Methods:**
@@ -544,6 +544,34 @@ This validation will be executed on layer3
 
 ```js
 /* 
+Validation Check: Prevents update of the admin role by the admin themselves.
+This validation will be executed on layer3
+*/
+  if (((this.session.roleId == 'admin' || this.session.roleId == 'tenantAdmin')  && this.isOwner)) {
+  throw (new ForbiddenError("errMsg_AdminCanNotUpdateHisOwnRole"))
+};
+
+``` 
+
+
+
+
+```js
+/* 
+Validation Check: Prevents update of the other admin roles by an admin.
+This validation will be executed on layer3
+*/
+  if ((this.session.roleId != 'superAdmin' && this.user.roleId == 'admin')) {
+  throw (new ForbiddenError("errMsg_AdminCanNotUpdateOtherAdminRoles"))
+};
+
+``` 
+
+
+
+
+```js
+/* 
 Validation Check: Check if the logged in user has [superAdmin-tenantAdmin] roles
 This validation will be executed on layer1
 */
@@ -615,6 +643,20 @@ This validation will be executed on layer3
 */
   if (!this.hashCompare(this.oldPassword, this.user.password)) {
   throw (new ForbiddenError("errMsg_TheOldPasswordDoesNotMatch"))
+};
+
+``` 
+
+
+
+
+```js
+/* 
+Validation Check: Ensures that the SuperAdmin account cannot be updated by any user except the SuperAdmin themselves. This validation prevents privilege escalation by blocking updates to the SuperAdmin userId unless the session user is the SuperAdmin.
+This validation will be executed on layer3
+*/
+  if (!this.userId != this.auth?.superAdminId || this.session.userId == this.auth?.superAdminId) {
+  throw (new BadRequestError("errMsg_SuperAdminCanBeUpdatedBySuperAdmin"))
 };
 
 ``` 
@@ -866,6 +908,23 @@ The listUsers api has got no parameters.
   
 
   
+
+To access the route the session should validated across these validations.
+
+
+
+
+
+```js
+/* 
+Validation Check: Check if the logged in user has [superAdmin-tenantAdmin] roles
+This validation will be executed on layer1
+*/
+  if (!(this.userHasRole(this.ROLES.superAdmin) || this.userHasRole(this.ROLES.tenantAdmin))) {
+  throw (new ForbiddenError("errMsg_userShoudlHave[superAdmin-tenantAdmin]RoleToAccessRoute"))
+};
+
+``` 
 
 
 
